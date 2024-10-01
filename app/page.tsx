@@ -1,16 +1,16 @@
-import Image from "next/image";
-import AuthPage from "./login";
-import { ThemeProvider } from "@/components/theme-provider"
 
-export default function Home() {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/AuthOptions";
+import { redirect } from "next/navigation";
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+  console.log(session)
+  if (!session?.user) {
+    redirect("/auth");
+  }
   return (
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
-          <AuthPage />
-      </ThemeProvider>
+      
+         <div className="">hi verified user</div>
+     
   )
 }
