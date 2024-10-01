@@ -11,7 +11,7 @@ model User {
   id         Int         @id @default(autoincrement())
   name       String
   emailId    String      @unique
-  password   String
+  password   String?
   userInfo   UserInfo?
   interests   UserInterest[]
 }

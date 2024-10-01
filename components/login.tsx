@@ -1,14 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-
+import { signIn,signOut } from 'next-auth/react'
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 export default function AuthPage() {
+  useEffect(() => {
+    signOut({
+      redirect: false,
+    });
+  }, []);
+  const { toast } = useToast();
+  const router = useRouter()
+  const [isloading,setisloading]=useState(false)
   const [signUpData, setSignUpData] = useState({
     name: '',
     email: '',
@@ -23,7 +34,7 @@ export default function AuthPage() {
 
   const [passwordError, setPasswordError] = useState('')
 
-  const handleSignUpSubmit = (e: React.FormEvent) => {
+  const handleSignUpSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
     if (signUpData.password !== signUpData.confirmPassword) {
       setPasswordError("Passwords do not match")
@@ -31,11 +42,48 @@ export default function AuthPage() {
     }
     setPasswordError('')
     console.log('Sign Up Data:', signUpData)
+    try {
+      setisloading(true);
+   const response=   await axios.post("/api/register", { signUpData });
+      toast({ title: "Registration Successful" });
+      const email = response.data.emailId
+      const password = response.data.password
+      const login= await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (login?.ok) {
+        toast({ title: "Correct login" });
+        window.location.assign("/");
+      } else if (login?.error) {
+        toast({ title: "Error! Please Try Again" });
+      }
+    } catch (err) {
+      toast({ title: `Register ERR ${err}` });
+    } finally {
+      setisloading(false);
+    }
   }
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit =async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Login Data:', loginData)
+    const email = loginData.email
+    const password = loginData.password
+   const login= await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    console.log(login)
+    if (login?.ok) {
+      toast({ title: "Correct login" });
+      router.push('/')
+    } else if (login?.error) {
+      toast({ title: "Error! Please Try Again"+login.error });
+    }
+
   }
 
   const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {

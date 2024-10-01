@@ -2,7 +2,7 @@ import { AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import prisma from "./postgresdb";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt'
 export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
@@ -22,17 +22,17 @@ export const authOptions: AuthOptions = {
 
         const user = await prisma.user.findFirst({
           where: {
-            email: credentials.email,
+            emailId: credentials.email,
           },
         });
 
-        if (!user || !user.id || !user.hashedPassword) {
+        if (!user || !user.id || !user.password) {
           throw new Error("Invalid credentials");
         }
 
         const correctPassword = await bcrypt.compare(
           credentials.password,
-          user.hashedPassword
+          user.password
         );
 
         if (!correctPassword) {
@@ -41,8 +41,8 @@ export const authOptions: AuthOptions = {
 
         return {
             id:user.id.toString(),
-            email:user.email,
-            name:user.username
+            email:user.emailId,
+            name:user.name
           };
       },
     }),
@@ -55,16 +55,15 @@ export const authOptions: AuthOptions = {
       if (account?.provider === "google") {
         const user = await prisma.user.findFirst({
           where: {
-            email: profile?.email,
+            emailId: profile?.email,
           },
         });
         if (!user) {
           await prisma.user.create({
             data: {
-              email: profile?.email!,
-              username: profile?.name!,
-              firstName:profile?.name!,
-              lastName:profile?.name!
+              emailId: profile?.email!,
+              name: profile?.name!,
+              
             },
           });
         }
