@@ -11,7 +11,7 @@ const Skills: React.FC<SkillsProps> = ({ onSkillsChange }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkillInput(e.target.value);
   };
-
+/////
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && skillInput.trim() !== "") {
       e.preventDefault();
