@@ -10,6 +10,7 @@ interface FileUploaderProps {
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
+
 export const FileUploader: React.FC<FileUploaderProps> = ({ onUploadSuccess }) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
