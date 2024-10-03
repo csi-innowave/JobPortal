@@ -1,36 +1,31 @@
-// components/Skills.tsx
-
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface SkillsProps {
-  onSkillsChange: (skills: string[]) => void; // Prop to receive skills change handler
+  onSkillsChange: (skills: string[]) => void;
 }
 
 const Skills: React.FC<SkillsProps> = ({ onSkillsChange }) => {
-  const [skillInput, setSkillInput] = useState<string>(""); // For capturing user input
-  const [skills, setSkills] = useState<string[]>([]); // For storing the list of skills
+  const [skillInput, setSkillInput] = useState<string>("");
+  const [skills, setSkills] = useState<string[]>([]); 
 
-  // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkillInput(e.target.value);
   };
-
-  // Add skill on Enter key press
+/////
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && skillInput.trim() !== "") {
       e.preventDefault();
       const newSkills = [...skills, skillInput.trim()];
       setSkills(newSkills);
-      setSkillInput(""); // Clear input after adding
-      onSkillsChange(newSkills); // Notify parent component about skills change
+      setSkillInput(""); 
+      onSkillsChange(newSkills); 
     }
   };
 
-  // Remove skill from the list
   const removeSkill = (skillToRemove: string) => {
     const newSkills = skills.filter((skill) => skill !== skillToRemove);
     setSkills(newSkills);
-    onSkillsChange(newSkills); // Notify parent component about skills change
+    onSkillsChange(newSkills); 
   };
 
   return (
@@ -64,7 +59,7 @@ const Skills: React.FC<SkillsProps> = ({ onSkillsChange }) => {
                   color: "red" 
                 }}
               >
-                &times; {/* Cross mark */}
+                &times; 
               </span>
             </span>
           </div>
@@ -74,4 +69,4 @@ const Skills: React.FC<SkillsProps> = ({ onSkillsChange }) => {
   );
 };
 
-export default Skills;
+export default Skills; 

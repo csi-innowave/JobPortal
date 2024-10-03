@@ -4,38 +4,54 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import Skills from './Skills';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Skills from './skills';
+import { FileUploader } from './FileUploader'; // Import the new FileUploader component
 
+// Define the shape of the form data
+interface FormData {
+    name: string;
+    enrolmentNo: string;
+    email: string;
+    phone: string;
+    cgpa: string;
+    branch: string;
+    fileUrl: string; // New field for the uploaded file URL
+}
+///////
 function OnBoardingForm() {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         name: '',
         enrolmentNo: '',
         email: '',
         phone: '',
         cgpa: '',
-        branch: ''
+        branch: '',
+        fileUrl: '' // Initialize the fileUrl field
     });
 
-    const [skills, setSkills] = useState<string[]>([]); // State to store skills
+    const [skills, setSkills] = useState<string[]>([]);
 
-    // Handle changes for each input
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
     };
 
-    // Handle skills change
     const handleSkillsChange = (newSkills: string[]) => {
         setSkills(newSkills);
     };
 
-    // Handle form submission
-    const handleSubmit = (e) => {
+    const handleFileUploadSuccess = (url: string) => {
+        setFormData({
+            ...formData,
+            fileUrl: url
+        });
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("Form Data Submitted: ", { ...formData, skills });
         // Here you can make API calls or further process the data
@@ -51,15 +67,15 @@ function OnBoardingForm() {
                     </CardHeader>
                     <CardContent className="space-y-2">
                         <form onSubmit={handleSubmit}>
-                            {/* Form Fields */}
+                            {/* Existing form fields */}
                             {['name', 'enrolmentNo', 'email', 'phone', 'cgpa', 'branch'].map((field) => (
                                 <div className="space-y-1" key={field}>
-                                    <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1).replace(/No/, ' No') + ':'}</label>
-                                    <input
+                                    <Label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1).replace(/No/, ' No') + ':'}</Label>
+                                    <Input
                                         type={field === 'email' ? 'email' : field === 'cgpa' ? 'number' : 'text'}
                                         id={field}
                                         name={field}
-                                        value={formData[field]}
+                                        value={formData[field as keyof FormData]}
                                         onChange={handleChange}
                                         required
                                         style={{
@@ -74,7 +90,10 @@ function OnBoardingForm() {
                                     />
                                 </div>
                             ))}
-                            <Skills onSkillsChange={handleSkillsChange} /> {/* Skills Component */}
+                            <Skills onSkillsChange={handleSkillsChange} />
+                            
+                            {/* File Uploader component */}
+                            <FileUploader onUploadSuccess={handleFileUploadSuccess} />
 
                             <div className='w-full flex justify-center pt-10'>
                                 <button 
@@ -87,12 +106,12 @@ function OnBoardingForm() {
                                         borderRadius: '4px', 
                                         position: 'relative', 
                                         overflow: 'hidden',
-                                        boxShadow: '0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 255, 0, 0.6)', // gradient shadow
+                                        boxShadow: '0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 255, 0, 0.6)',
                                         transition: 'transform 0.2s ease',
                                     }}
                                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                                    >
+                                >
                                     Submit
                                 </button>
                             </div>
