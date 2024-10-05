@@ -14,6 +14,7 @@ model User {
   password   String?
   userInfo   UserInfo?
   interests   UserInterest[]
+  isVerified Boolean @default(false)
 }
 
 model UserInfo {

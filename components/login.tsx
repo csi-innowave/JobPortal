@@ -46,17 +46,13 @@ export default function AuthPage() {
       setisloading(true);
    const response=   await axios.post("/api/register", { signUpData });
       toast({ title: "Registration Successful" });
-      const email = response.data.emailId
-      const password = response.data.password
-      const login= await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-      if (login?.ok) {
+      console.log(response)
+
+     
+      if (response.statusText==='OK') {
         toast({ title: "Correct login" });
         window.location.assign("/");
-      } else if (login?.error) {
+      } else if (response?.status!==200) {
         toast({ title: "Error! Please Try Again" });
       }
     } catch (err) {
@@ -98,7 +94,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray">
+    <div className="flex items-center justify-center min-h-screen ">
       <Tabs defaultValue="login" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>

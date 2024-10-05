@@ -42,7 +42,8 @@ export const authOptions: AuthOptions = {
         return {
             id:user.id.toString(),
             email:user.emailId,
-            name:user.name
+            name:user.name,
+            isVerfied:user.isVerified
           };
       },
     }),
