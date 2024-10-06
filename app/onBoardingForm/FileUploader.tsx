@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -93,7 +94,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onUploadSuccess }) =
         className="file:mr-4 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-black hover:file:bg-violet-100"
       />
       {file && (
-        <div className="flex items-center justify-between bg-black p-2 rounded">
+        <div className="flex items-center justify-between  p-2 rounded">
           <span className="truncate">{file.name}</span>
           <button
             onClick={removeFile}

@@ -10,7 +10,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { signIn,signOut } from 'next-auth/react'
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation'
+import useUserStore from '@/store/UserStore'
 import axios from 'axios'
+import { getUser } from '@/actions/user.actions'
 export default function AuthPage() {
   useEffect(() => {
     signOut({
@@ -18,6 +20,7 @@ export default function AuthPage() {
     });
   }, []);
   const { toast } = useToast();
+  const {setUser}=useUserStore()
   const router = useRouter()
   const [isloading,setisloading]=useState(false)
   const [signUpData, setSignUpData] = useState({
@@ -76,6 +79,10 @@ export default function AuthPage() {
     if (login?.ok) {
       toast({ title: "Correct login" });
       router.push('/')
+   
+        const info= await getUser(email)
+        setUser({email:info?.emailId!,isVerified:info?.isVerified!,name:info?.name!})
+  
     } else if (login?.error) {
       toast({ title: "Error! Please Try Again"+login.error });
     }
