@@ -1,10 +1,10 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface User {
   email: string;
   isVerified: boolean;
   name: string;
-
 }
 
 interface UserState {
@@ -13,10 +13,18 @@ interface UserState {
   clearUser: () => void;
 }
 
-const useUserStore = create<UserState>((set) => ({
-  user: null,
-  setUser: (user: User) => set({ user }),
-  clearUser: () => set({ user: null }),
-}));
+const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (user: User) => set({ user }),
+      clearUser: () => set({ user: null }),
+    }),
+    {
+      name: 'user-storage',
+      storage: createJSONStorage(() => sessionStorage),
+    }
+  )
+);
 
 export default useUserStore;

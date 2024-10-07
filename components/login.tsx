@@ -78,11 +78,19 @@ export default function AuthPage() {
     console.log(login)
     if (login?.ok) {
       toast({ title: "Correct login" });
-      router.push('/')
+      
    
         const info= await getUser(email)
-        setUser({email:info?.emailId!,isVerified:info?.isVerified!,name:info?.name!})
-  
+        console.log(info)
+        if (info?.emailId && info?.isVerified !== undefined && info?.name) {
+          setUser({ email: info.emailId, isVerified: info.isVerified, name: info.name });
+          console.log('aayayu')
+          router.push('/');
+          console.log('aaya')
+          // Redirect to homepage
+        } else {
+          toast({ title: "Error! User info not available." });
+        }
     } else if (login?.error) {
       toast({ title: "Error! Please Try Again"+login.error });
     }
