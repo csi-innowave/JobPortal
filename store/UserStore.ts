@@ -5,6 +5,7 @@ interface User {
   email: string;
   isVerified: boolean;
   name: string;
+  id:number
 }
 
 interface UserState {

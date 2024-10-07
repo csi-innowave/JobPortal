@@ -83,11 +83,10 @@ export default function AuthPage() {
         const info= await getUser(email)
         console.log(info)
         if (info?.emailId && info?.isVerified !== undefined && info?.name) {
-          setUser({ email: info.emailId, isVerified: info.isVerified, name: info.name });
+          setUser({ email: info.emailId, isVerified: info.isVerified, name: info.name,id:info?.id! });
           console.log('aayayu')
           router.push('/');
           console.log('aaya')
-          // Redirect to homepage
         } else {
           toast({ title: "Error! User info not available." });
         }

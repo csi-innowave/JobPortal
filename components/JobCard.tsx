@@ -5,10 +5,13 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Building2, FileText, Briefcase, ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
-
+import { showInterestInJob } from '@/actions/user.actions'
+import useUserStore from '@/store/UserStore'
+import { useToast } from '@/hooks/use-toast'
 interface Job {
   name: string
   jdLink: string
+  id:number
 }
 
 interface Company {
@@ -21,9 +24,18 @@ interface JobCardProps {
 }
 
 export default function JobCard({ job, company }: JobCardProps) {
-  const handleApply = () => {
-    console.log(`Applying for job: ${job.name} at ${company.name}`)
+const {user}=useUserStore()
+const { toast } = useToast();
+const userId=user?.id!
+
+const jobId = job.id
+async function apply() {
+    const applied = await showInterestInJob(userId,jobId)
+  if(applied.success){
+    toast({ title: "Application Sent" });
   }
+
+}
 
   return (
     <Card className="w-full max-w-md overflow-hidden group">
@@ -74,7 +86,7 @@ export default function JobCard({ job, company }: JobCardProps) {
       </CardContent>
       <CardFooter className="bg-muted/50 p-4">
         <Button
-          onClick={handleApply}
+          onClick={apply}
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground group"
         >
           Apply Now

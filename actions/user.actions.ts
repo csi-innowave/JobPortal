@@ -58,3 +58,18 @@ export async function completeOnboarding(
    })
    return updateUser
 }
+
+export async function showInterestInJob(userId: number, jobId: number) {
+    try {
+      const userInterest = await prisma.userInterest.create({
+        data: {
+          userId,
+          jobId,
+        },
+      })
+      return { success: true, userInterest }
+    } catch (error) {
+      console.error('Failed to show interest:', error)
+      return { success: false, error: 'Failed to show interest in job' }
+    }
+  }

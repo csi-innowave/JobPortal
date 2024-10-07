@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -73,7 +74,7 @@ const UserInfoForm = () => {
   const [date, setDate] = React.useState<Date | undefined>();
   const form = useForm<UserInfoFormData>();
  const {user,setUser}=useUserStore()
- 
+ const { toast } = useToast();
   const handleSkillSelect = (skill: string) => {
     if (!selectedSkills.includes(skill)) {
       setSelectedSkills([...selectedSkills, skill]);
@@ -100,9 +101,11 @@ const UserInfoForm = () => {
    }
    
      await completeOnboarding(completeData)
+     toast({ title: "Onboarding Successfull🚀" });
      const info= await getUser(emailId)
      console.log(info)
-     setUser({ name:info?.name!,isVerified:info?.isVerified!,email:info?.emailId! });
+     setUser({ name:info?.name!,isVerified:info?.isVerified!,email:info?.emailId!,id:info?.id! });
+     
  }
   return (
     <div className="">
