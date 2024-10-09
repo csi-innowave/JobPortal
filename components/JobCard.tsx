@@ -99,6 +99,7 @@ export default function JobListings({ companies }: { companies: Company[] }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
+                className=""
               >
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
                   <Building className="w-6 h-6 mr-2" />

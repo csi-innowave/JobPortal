@@ -1,32 +1,31 @@
-import SignOutButton from "./Logout"
+import SignOutButton from "./Logout";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { authOptions } from "@/lib/AuthOptions";
-  import { getServerSession } from "next-auth"
+import { getServerSession } from "next-auth";
 export default async function UserButton() {
-    const session = await getServerSession(authOptions);
-    
+  const session = await getServerSession(authOptions);
+
   return (
-    <DropdownMenu >
-  <DropdownMenuTrigger className="bg-purple-300 w-10 h-10 right-5 fixed rounded-full">
-     <p className="text-slate-800 ">
-     {session?.user?.name?.charAt(0)}
-
-     </p>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className="mr-6 bg-white">
-    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>Profile</DropdownMenuItem>
-   <SignOutButton/>
-  </DropdownMenuContent>
-</DropdownMenu>
-
-  )
+    <DropdownMenu>
+      <DropdownMenuTrigger className="absolute right-5 flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+        <span className="flex h-full w-full items-center justify-center rounded-full bg-purple-200">
+          {session?.user?.name?.slice(0, 2).toUpperCase()}
+        </span>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="mr-5 bg-white">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <SignOutButton />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
