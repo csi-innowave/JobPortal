@@ -34,7 +34,7 @@ export default function SignOutButton() {
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            className="absolute inset-0 flex items-center justify-center bg-primary text-primary-foreground"
+            className="absolute inset-0 flex items-center justify-center bg-purple-600 text-primary-foreground"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}

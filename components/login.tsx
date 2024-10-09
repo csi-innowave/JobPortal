@@ -53,7 +53,7 @@ export default function AuthPage() {
 
      
       if (response.statusText==='OK') {
-        toast({ title: "Correct login" });
+        toast({ title: "Registration Successful" });
         window.location.assign("/");
       } else if (response?.status!==200) {
         toast({ title: "Error! Please Try Again" });
