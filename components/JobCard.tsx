@@ -73,7 +73,7 @@ export default function JobListings({ companies }: { companies: Company[] }) {
 
   return (
     <div className="min-h-screen  p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-screen-lg mx-auto">
         <section className="flex items-center justify-between">
           <h1 className="text-4xl font-bold text-gray-800 mb-8">
             Find Your Dream Internship at{" "}

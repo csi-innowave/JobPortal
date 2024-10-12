@@ -20,7 +20,7 @@ export default async function UserButton() {
           {session?.user?.name?.slice(0, 2).toUpperCase()}
         </span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="mr-5 bg-white">
+      <DropdownMenuContent className="mr-5 grid gap-0.5 bg-white">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Profile</DropdownMenuItem>
