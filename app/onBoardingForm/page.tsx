@@ -17,7 +17,6 @@ interface FormData {
     phone: string;
     cgpa: string;
     branch: string;
-    fileUrl: string; 
 }
 
 function OnBoardingForm() {
@@ -27,8 +26,7 @@ function OnBoardingForm() {
         email: '',
         phone: '',
         cgpa: '',
-        branch: '',
-        fileUrl: '' // Initialize the fileUrl field
+        branch: '', // Initialize the fileUrl field
     });
 
     const [skills, setSkills] = useState<string[]>([]);
@@ -48,7 +46,6 @@ function OnBoardingForm() {
     const handleFileUploadSuccess = (url: string) => {
         setFormData({
             ...formData,
-            fileUrl: url
         });
     };
 

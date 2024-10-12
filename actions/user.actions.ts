@@ -2,9 +2,7 @@
 
 import prisma from "@/lib/postgresdb"
 type UserInfoFormData = {
-    emailId:string
-    resumeLink: string;
-    date: Date;
+    emailId:string;
     year: number;
     branch: string;
     cgpa: number;
@@ -25,7 +23,7 @@ export async function getUser(emailId:string){
 export async function completeOnboarding(
     userinfo:UserInfoFormData
 ){
-    const {emailId,enrolmentNo,date,resumeLink,branch,year,skills,cgpa,phoneNumber}=userinfo
+    const {emailId,enrolmentNo,branch,year,skills,cgpa,phoneNumber}=userinfo
     const user = await prisma.user.findFirst({
         where:{
             emailId
@@ -39,8 +37,6 @@ export async function completeOnboarding(
     data:{
         userId:user.id,
         enrolmentNo,
-        dob:date,
-        resumeLink,
         branch,
         year:yeare,
         skills,
@@ -49,6 +45,7 @@ export async function completeOnboarding(
 
     }
    })
+   console.log(updateUser)
    await prisma.user.update({
     where:{
         emailId

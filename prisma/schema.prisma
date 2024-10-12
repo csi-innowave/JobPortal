@@ -19,8 +19,6 @@ model User {
 
 model UserInfo {
   id          Int      @id @default(autoincrement())
-  resumeLink  String
-  dob         DateTime
   year        Int
   branch      String
   cgpa        Float
